@@ -45,10 +45,11 @@ ip_configuration = wlan.ifconfig()[0]
 # ip_configuration = ip_configuration.decode('utf-8')
 print("ip address ", ip_configuration)
 
-oled.fill(0)
-oled.text("RED", 10, 11)
-oled.text(ip_configuration, 10,32)
-oled.show()
+if oled_flag:
+    oled.fill(0)
+    oled.text("RED", 10, 11)
+    oled.text(ip_configuration, 10,32)
+    oled.show()
 # 
 
 ########################################
