@@ -1,3 +1,4 @@
+import _thread
 from machine import Pin, I2C, Timer
 import time, gc
 from micropython import const
@@ -65,12 +66,14 @@ s.bind(addr)
 s.listen(1)
 
 print('listening on', addr)
+print('ip_configuration ', 'http://%s' %ip_configuration)
 
 def refresh_sevos():
    for i in range(6):
       bus_servo.run(i+1,500)
 
-while True:
+def run_webservice():
+  while True:
     cl, addr = s.accept()
     print('client connected from', addr)
     request = cl.recv(1024)
@@ -100,3 +103,4 @@ while True:
     cl.sendall(response)
     cl.close()
 
+_thread.start_new_thread(run_webservice, ())
