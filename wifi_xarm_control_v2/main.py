@@ -1,3 +1,4 @@
+import sys
 import _thread
 from machine import Pin, I2C, Timer
 import time, gc
@@ -74,33 +75,36 @@ def refresh_sevos():
 
 def run_webservice():
   while True:
-    cl, addr = s.accept()
-    print('client connected from', addr)
-    request = cl.recv(1024)
-    request = str(request)
-    print('request:', request)
-    
-    if 'GET / ' in request:
-        response = html
-        refresh_sevos()
-    elif 'GET /slider?value=' in request:
-        info = (request.split('value=')[1].split(' ')[0])
-        servo_id = info.split('_')[0]
-        servo_id = int(servo_id)
-        angle = info.split('_')[1]
-        angle = int(angle)
+    try:
+      cl, addr = s.accept()
+      print('client connected from', addr)
+      request = cl.recv(1024)
+      request = str(request)
+      print('request:', request)
+      
+      if 'GET / ' in request:
+          response = html
+          refresh_sevos()
+      elif 'GET /slider?value=' in request:
+          info = (request.split('value=')[1].split(' ')[0])
+          servo_id = info.split('_')[0]
+          servo_id = int(servo_id)
+          angle = info.split('_')[1]
+          angle = int(angle)
 
-        bus_servo.run(servo_id,angle)
-        # servo.write_angle(angle)
-        response = "Servo ID set to " + str(servo_id) + " angle is " + str(angle)
-        print("repsonse", response)
-    else:
-        response = "Invalid Request"
-    
-    cl.send('HTTP/1.1 200 OK\n')
-    cl.send('Content-Type: text/html\n')
-    cl.send('Connection: close\n\n')
-    cl.sendall(response)
-    cl.close()
+          bus_servo.run(servo_id,angle)
+          # servo.write_angle(angle)
+          response = "Servo ID set to " + str(servo_id) + " angle is " + str(angle)
+          print("repsonse", response)
+      else:
+          response = "Invalid Request"
+      
+      cl.send('HTTP/1.1 200 OK\n')
+      cl.send('Content-Type: text/html\n')
+      cl.send('Connection: close\n\n')
+      cl.sendall(response)
+      cl.close()
+    except Exception as e:
+      sys.print_exception(e) 
 
 _thread.start_new_thread(run_webservice, ())
