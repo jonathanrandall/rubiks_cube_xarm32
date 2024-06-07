@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="xarm">
+
+    <xacro:property name="eef" value="eef_3_finger"/>
+
+    <xacro:include filename="$(find ros2_control_demo_description)/xarmbot/urdf/xarm.urdf"/>
+    <link name="world"/>
+    <xacro:arg name="initial_z" default="0.0"/>
+
+    <joint name="world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="xarm_base_link"/>
+        <origin xyz="0.0 0.0 $(arg initial_z)" rpy="0.0 0.0 0.0"/>
+    </joint>
+</robot>
