@@ -221,6 +221,17 @@ class BusServo:
     if self.servo_receive_handle():
       return ustruct.unpack('h', ustruct.pack('H', byte_to_hw(self.rx_buf[5], self.rx_buf[6])))[0]
     return False
+  
+  def get_positions(self):
+    pos_ids = [1,2,3,4,5,6]
+    positions = [self.get_position(id) for id in pos_ids]
+    return positions
+  
+  def set_positions(self, goal_positions, servo_run_time):
+    assert len(goal_positions) == 6
+    for n, p in enumerate(goal_positions):
+      self.run(id=n+1, p=p, servo_run_time=servo_run_time)
+    
 
   def get_vin(self, id):
     self.uart.read()
