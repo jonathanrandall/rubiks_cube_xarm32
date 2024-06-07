@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="xarm" xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:property name="eef" value="eef_3_finger"/>
+    <xacro:property name="eef" value="eef_2_finger"/>
 
     <material name="DarkGrey">
         <color rgba="0.3 0.3 0.3 1.0" />
@@ -30,7 +30,7 @@
         <color rgba="0.3058 0.5921 0.7294 1.0" />
     </material>
 
-    <link name="xarm_base_link">
+    <link name="base_link">
         <visual>
             <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
             <geometry>
@@ -127,18 +127,18 @@
         </inertial>
     </link>
 
-    <link name="xarm_7_link">
+   <link name="xarm_7_link">
         <visual>
             <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
             <geometry>
-                <mesh filename="package://xarm_description/xarmbot/meshes/stls/link7_6dof.stl" scale="1.0 1.0 1.0" />
+                <mesh filename="package://ros2_control_demo_description/xarmbot/meshes/stls/link7_6dof.stl" scale="1.0 1.0 1.0" />
             </geometry>
             <material name="Blue" />
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0.0 0.0 0.0" />
             <geometry>
-                <mesh filename="package://xarm_description/xarmbot/meshes/stls/link7_6dof.stl" scale="1.0 1.0 1.0" />
+                <mesh filename="package://ros2_control_demo_description/xarmbot/meshes/stls/link7_6dof.stl" scale="1.0 1.0 1.0" />
             </geometry>
         </collision>
         <inertial>
@@ -146,6 +146,7 @@
             <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
         </inertial>
     </link>
+
 
     <xacro:if value="${eef == 'eef_2_finger'}">
         <link name="eef_base_link">
@@ -297,7 +298,7 @@
         <limit effort="1000" lower="-1.737238322" upper="1.79965407" velocity="1.0" />
         <!--safety_controller k_position="30" k_velocity="30" soft_lower_limit="-2.93215314335" soft_upper_limit="2.93215314335"/>
         <dynamics damping="1.0"/-->
-        <parent link="xarm_base_link" />
+        <parent link="base_link" />
         <child link="xarm_6_link" />
     </joint>
 
@@ -332,6 +333,7 @@
         <parent link="xarm_4_link" />
         <child link="xarm_7_link" />
     </joint>
+  
 
     <joint name="xarm_3_joint" type="revolute">
         <origin rpy="0 0 0" xyz="0 0.0 0.030" />
