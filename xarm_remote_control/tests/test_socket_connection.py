@@ -22,15 +22,6 @@ def test_get_positions(servo):
         position = servo.get_position(id=id)
         assert abs(position == positions[n]) < 5
 
-def test_read_position2(servo):
-    start = datetime.now()
-    for _ in range(100):
-        position = servo.get_position(id=1)
-        print(position)
-
-    end = datetime.now()
-    print(f'msg_per_second = {100/(end - start).total_seconds()}')
-
 def test_set_positions(servo):
     positions = servo.get_positions()
     if positions[0] > 350:
