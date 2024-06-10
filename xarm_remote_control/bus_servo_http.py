@@ -13,6 +13,7 @@ class BusServoHttp:
             url = f"{self.address}/command?method={command}"
         try:
             response = self.session.get(url)
+            print(response.text)
             response.raise_for_status()
             return response.json() if response.headers['Content-Type'] == 'application/json' else response.text
         except requests.RequestException as e:

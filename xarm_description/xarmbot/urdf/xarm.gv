@@ -1,0 +1,26 @@
+digraph G {
+node [shape=box];
+"base_link" [label="base_link"];
+"xarm_6_link" [label="xarm_6_link"];
+"xarm_5_link" [label="xarm_5_link"];
+"xarm_4_link" [label="xarm_4_link"];
+"xarm_3_link" [label="xarm_3_link"];
+"eef_base_link" [label="eef_base_link"];
+"eef_2_finger_left_link" [label="eef_2_finger_left_link"];
+"eef_2_finger_right_link" [label="eef_2_finger_right_link"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "xarm_6_joint" [label="xyz: 0 0 0.03603 \nrpy: 0 -0 0"]
+"xarm_6_joint" -> "xarm_6_link"
+"xarm_6_link" -> "xarm_5_joint" [label="xyz: 0 -0.0022 0.03195 \nrpy: 0 -0 0"]
+"xarm_5_joint" -> "xarm_5_link"
+"xarm_5_link" -> "xarm_4_joint" [label="xyz: 0 0 0.097 \nrpy: 0 -0 0"]
+"xarm_4_joint" -> "xarm_4_link"
+"xarm_4_link" -> "xarm_3_joint" [label="xyz: 0 0 0.093 \nrpy: 0 -0 0"]
+"xarm_3_joint" -> "xarm_3_link"
+"xarm_3_link" -> "xarm_2_joint" [label="xyz: 0 -0.001205 0.05306 \nrpy: 0 -0 0"]
+"xarm_2_joint" -> "eef_base_link"
+"eef_base_link" -> "xarm_1_joint" [label="xyz: 0 0 0.05 \nrpy: 0 -0 0"]
+"xarm_1_joint" -> "eef_2_finger_left_link"
+"eef_base_link" -> "xarm_1_joint_mirror" [label="xyz: 0 0 0.05 \nrpy: 0 -0 0"]
+"xarm_1_joint_mirror" -> "eef_2_finger_right_link"
+}

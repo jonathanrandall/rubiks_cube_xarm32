@@ -2,7 +2,7 @@ import pytest
 
 from bus_servo_http import BusServoHttp
 
-URL_XARM = 'http://192.168.88.231'
+URL_XARM = 'http://192.168.1.121'
 
 @pytest.fixture(scope='module')
 def servo():
