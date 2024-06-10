@@ -140,4 +140,33 @@ def run_webservice():
     except Exception as e:
       sys.print_exception(e) 
 
-_thread.start_new_thread(run_webservice, ())  
+
+def run_socket():
+    port = 5005
+    addr = socket.getaddrinfo('0.0.0.0', port)[0][-1]
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.bind(addr)
+    print("Socket listening on", addr, 'and port', port)
+    while True:
+      try:
+        data, addr = s.recvfrom(64)
+        if data:
+          req = data.decode().split('-')
+          print(req)
+          method_name = req[0]
+          params = None if len(req) == 1 else req[1]
+          print(params)
+          if params is None:
+              args = dict()
+          else:
+            args = [int(x) if x.isdigit() else x for x in params.split(',')]
+          if method_name == 'set_positions':
+            args = [args[:-1], args[-1]]
+          result = name2bus_method[method_name](*args)
+          response = json.dumps(result)
+          s.sendto(response.encode(), addr)
+      except Exception as e:
+        sys.print_exception(e)
+
+_thread.start_new_thread(run_socket, ())
+_thread.start_new_thread(run_webservice, ())
