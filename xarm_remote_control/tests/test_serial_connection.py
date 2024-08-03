@@ -45,6 +45,21 @@ def test_close_or_open_gripper():
         new_position = 550
     servo.run(id,new_position,10)
 
+def test_default_position():
+    l =  [125, 0, 0, 0, 0, 0]
+    servo = BusServoSerial()
+    for n, v in  enumerate(l):
+        angel = v
+        angel_factor = 1000/ 240
+        cmnd = int(angel * angel_factor) + 500
+        print(n+1,cmnd)
+        servo.run(n+1, cmnd, 500)
+
+def test_default_position1():
+    l = [120, 500, 500, 500, 500, 500]
+    servo = BusServoSerial()
+    for n, v in  enumerate(l):
+        servo.run(n+1, v, 500)
 
 
 
